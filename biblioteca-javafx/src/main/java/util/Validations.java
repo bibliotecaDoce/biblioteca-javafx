@@ -10,6 +10,6 @@ public final class Validations {
 
     public static boolean isIsbn13(String isbn) {
         if (isBlank(isbn)) return false;
-        return isbn.matches("^\\d{13}$");
+        return isbn.matches("^\\ d{13}$");
     }
 }
