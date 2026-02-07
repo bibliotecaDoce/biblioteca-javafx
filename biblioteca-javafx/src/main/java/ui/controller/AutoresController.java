@@ -18,14 +18,18 @@ public class AutoresController {
     @FXML private TextField txtNombre;
     @FXML private TextField txtNacionalidad;
 
-    // ListView (siempre visible)
+    @FXML private DatePicker dpFechaNacimiento;
+    @FXML private CheckBox chkActivo;
+
+    // ListView
     @FXML private ListView<Autor> lstAutores;
 
-    // TableView (toggle)
+    // TableView
     @FXML private TableView<Autor> tblAutores;
     @FXML private TableColumn<Autor, Integer> colId;
     @FXML private TableColumn<Autor, String> colNombre;
     @FXML private TableColumn<Autor, String> colNacionalidad;
+    @FXML private TableColumn<Autor, LocalDate> colFechaNacimiento;
     @FXML private TableColumn<Autor, Boolean> colActivo;
 
     // Botones
@@ -35,40 +39,47 @@ public class AutoresController {
 
     private final BibliotecaService service = new BibliotecaService();
     private final ObservableList<Autor> autoresObs = FXCollections.observableArrayList();
-
     private boolean tablaVisible = false;
 
     @FXML
     public void initialize() {
 
-        // TableView: columnas
+        // Columnas
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colNacionalidad.setCellValueFactory(new PropertyValueFactory<>("nacionalidad"));
+        colFechaNacimiento.setCellValueFactory(new PropertyValueFactory<>("fechaNacimiento"));
         colActivo.setCellValueFactory(new PropertyValueFactory<>("activo"));
 
-        // Datos compartidos
         tblAutores.setItems(autoresObs);
         lstAutores.setItems(autoresObs);
 
-        // ListView: texto personalizado
+        // Texto de ListView (incluye fecha y activo)
         lstAutores.setCellFactory(lv -> new ListCell<>() {
             @Override
             protected void updateItem(Autor item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) setText(null);
-                else setText(item.getId() + " - " + item.getNombre() + " (" + item.getNacionalidad() + ")");
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    String fecha = (item.getFechaNacimiento() != null) ? item.getFechaNacimiento().toString() : "-";
+                    String activoTxt = item.isActivo() ? "Sí" : "No";
+                    setText(item.getId() + " - " + item.getNombre()
+                            + " | " + item.getNacionalidad()
+                            + " | nac: " + fecha
+                            + " | activo: " + activoTxt);
+                }
             }
         });
 
         refreshData();
         setTablaVisible(false);
 
-        // Protección botones
+        // Botones protegidos
         btnEliminar.setDisable(true);
         btnEditar.setDisable(true);
 
-        // Selección desde ListView
+        // Selección ListView
         lstAutores.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, sel) -> {
             if (sel != null) {
                 tblAutores.getSelectionModel().clearSelection();
@@ -78,7 +89,7 @@ public class AutoresController {
             }
         });
 
-        // Selección desde TableView
+        // Selección TableView
         tblAutores.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, sel) -> {
             if (sel != null) {
                 lstAutores.getSelectionModel().clearSelection();
@@ -88,8 +99,12 @@ public class AutoresController {
             }
         });
 
-        // UX: Enter en nacionalidad = guardar (alta)
+        // UX: Enter en nacionalidad -> guardar
         txtNacionalidad.setOnAction(e -> onGuardar(null));
+
+        // Defaults para nuevos autores
+        chkActivo.setSelected(true);
+        dpFechaNacimiento.setValue(null);
     }
 
     private void refreshData() {
@@ -99,6 +114,8 @@ public class AutoresController {
     private void rellenarFormulario(Autor a) {
         txtNombre.setText(a.getNombre());
         txtNacionalidad.setText(a.getNacionalidad());
+        dpFechaNacimiento.setValue(a.getFechaNacimiento()); // puede ser null
+        chkActivo.setSelected(a.isActivo());
     }
 
     private void setTablaVisible(boolean visible) {
@@ -114,7 +131,7 @@ public class AutoresController {
         return sel;
     }
 
-    // ================= ACTION EVENTS =================
+    // ---------------- Actions ----------------
 
     @FXML
     public void onToggleTabla(ActionEvent event) {
@@ -125,6 +142,9 @@ public class AutoresController {
     public void onNuevo(ActionEvent event) {
         txtNombre.clear();
         txtNacionalidad.clear();
+        dpFechaNacimiento.setValue(null);
+        chkActivo.setSelected(true);
+
         txtNombre.requestFocus();
 
         lstAutores.getSelectionModel().clearSelection();
@@ -138,13 +158,23 @@ public class AutoresController {
     public void onGuardar(ActionEvent event) {
         String nombre = txtNombre.getText();
         String nacionalidad = txtNacionalidad.getText();
+        LocalDate fechaNac = dpFechaNacimiento.getValue();
+        boolean activo = chkActivo.isSelected();
 
         if (Validations.isBlank(nombre) || Validations.isBlank(nacionalidad)) {
             error("Nombre y nacionalidad son obligatorios.");
             return;
         }
+        if (fechaNac == null) {
+            error("La fecha de nacimiento es obligatoria.");
+            return;
+        }
+        if (fechaNac.isAfter(LocalDate.now())) {
+            error("La fecha de nacimiento no puede ser futura.");
+            return;
+        }
 
-        Autor a = new Autor(0, nombre.trim(), nacionalidad.trim(), LocalDate.now(), true);
+        Autor a = new Autor(0, nombre.trim(), nacionalidad.trim(), fechaNac, activo);
         service.addAutor(a);
 
         refreshData();
@@ -162,17 +192,28 @@ public class AutoresController {
 
         String nombre = txtNombre.getText();
         String nacionalidad = txtNacionalidad.getText();
+        LocalDate fechaNac = dpFechaNacimiento.getValue();
+        boolean activo = chkActivo.isSelected();
 
         if (Validations.isBlank(nombre) || Validations.isBlank(nacionalidad)) {
             error("Nombre y nacionalidad no pueden estar vacíos.");
             return;
         }
+        if (fechaNac == null) {
+            error("La fecha de nacimiento es obligatoria.");
+            return;
+        }
+        if (fechaNac.isAfter(LocalDate.now())) {
+            error("La fecha de nacimiento no puede ser futura.");
+            return;
+        }
 
-        // Modificar el objeto seleccionado
+        // Actualizamos el seleccionado
         sel.setNombre(nombre.trim());
         sel.setNacionalidad(nacionalidad.trim());
+        sel.setFechaNacimiento(fechaNac);
+        sel.setActivo(activo);
 
-        // Guardar cambios (ver método en BibliotecaService abajo)
         service.updateAutor();
 
         refreshData();
@@ -183,7 +224,6 @@ public class AutoresController {
     @FXML
     public void onEliminar(ActionEvent event) {
         Autor sel = getSeleccionado();
-
         if (sel == null) {
             error("Selecciona un autor para eliminar.");
             return;
@@ -212,6 +252,8 @@ public class AutoresController {
     public void onVolver(ActionEvent event) {
         ((javafx.scene.Node) event.getSource()).getScene().getWindow().hide();
     }
+
+    // ---------------- Alerts ----------------
 
     private void info(String msg) {
         new Alert(Alert.AlertType.INFORMATION, msg).showAndWait();
