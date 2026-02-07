@@ -19,10 +19,11 @@ public class AutoresController {
 
     @FXML private TextField txtNombre;
     @FXML private TextField txtNacionalidad;
+
     @FXML private DatePicker dpFechaNacimiento;
+
     @FXML private CheckBox chkActivo;
 
-    // OJO: debe llamarse igual que en el FXML: lstAutores
     @FXML private ListView<Autor> lstAutores;
 
     @FXML private TableView<Autor> tblAutores;
@@ -38,7 +39,7 @@ public class AutoresController {
     @FXML
     public void initialize() {
 
-        // ListView
+        // Visualización de los autores añadidos en la listview
         lstAutores.setItems(autoresObs);
         lstAutores.setCellFactory(lv -> new ListCell<>() {
             @Override
@@ -64,7 +65,7 @@ public class AutoresController {
 
         tblAutores.setItems(autoresObs);
 
-        // Selección desde ListView
+        // Selección desde la ListView
         lstAutores.getSelectionModel().selectedItemProperty().addListener((obs, o, sel) -> cargarEnFormulario(sel));
 
         refrescarDatos();
@@ -78,17 +79,20 @@ public class AutoresController {
 
     @FXML
     public void onGuardar() {
+        // Verificamos que txtNombree no sea igual a nulo, si lo es asignaremos "" como valos y en caso contrario
+        // donde el nombre no sea nulo, hacemos un getText sin espacios
         String nombre = txtNombre.getText() == null ? "" : txtNombre.getText().trim();
         String nacionalidad = txtNacionalidad.getText() == null ? "" : txtNacionalidad.getText().trim();
         LocalDate fecha = dpFechaNacimiento.getValue();
         boolean activo = chkActivo.isSelected();
 
+        // si nos devuelve "" mandamos una alerta para indicar que son obligatorios esos campos
         if (Validations.isBlank(nombre) || Validations.isBlank(nacionalidad) || fecha == null) {
             error("Todos los campos son obligatorios.");
             return;
         }
 
-        // Validación PR2: no permitir números
+        // No se permite formato numerico
         if (nombre.matches(".*\\d.*")) {
             error("El nombre no puede contener números.");
             return;
@@ -106,8 +110,8 @@ public class AutoresController {
         info("Autor guardado (ID: " + a.getId() + ")");
     }
 
-    // OJO: ahora se llama onEditar para coincidir con el FXML
     @FXML
+    // verificamos que seleccione un autor y no una fila en blanco
     public void onEditar() {
         Autor sel = lstAutores.getSelectionModel().getSelectedItem();
         if (sel == null) {
@@ -167,8 +171,6 @@ public class AutoresController {
 
     @FXML
     public void onVolver() {
-        // Si ya tenéis menú, lo correcto es volver al menú con SceneRouter.
-        // Si no, esto cierra la app.
         SceneRouter.go("menu.fxml");
     }
 

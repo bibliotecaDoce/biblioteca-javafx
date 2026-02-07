@@ -17,7 +17,7 @@ import java.util.List;
 
 public class JsonStore {
 
-    // Guardamos datos fuera de src/, en carpeta "data" al nivel del pom.xml
+    // Guardamos los datos fuera en la carpeta "data"
     private static final Path DATA_DIR = Path.of("data");
     private static final Path AUTORES_PATH = DATA_DIR.resolve("autores.json");
     private static final Path LIBROS_PATH  = DATA_DIR.resolve("libros.json");
@@ -31,7 +31,7 @@ public class JsonStore {
                 .create();
     }
 
-    // ================= AUTORES =================
+    // AUTORES
 
     public List<Autor> loadAutores() {
         try {
@@ -45,7 +45,7 @@ public class JsonStore {
             return autores != null ? autores : new ArrayList<>();
 
         } catch (Exception e) {
-            // Si el JSON está vacío/corrupto, no rompemos la app
+            // Si el JSON está vacío no rompemos la app
             e.printStackTrace();
             return new ArrayList<>();
         }
@@ -62,7 +62,7 @@ public class JsonStore {
         }
     }
 
-    // ================= LIBROS =================
+    //LIBROS
 
     public List<Libro> loadLibros() {
         try {
