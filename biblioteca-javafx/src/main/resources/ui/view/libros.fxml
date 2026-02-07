@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="600" prefWidth="900" spacing="12" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="ui.controller.LibrosController">
+<VBox alignment="CENTER" prefHeight="600" prefWidth="900" spacing="12" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.LibrosController">
 
     <Label style="-fx-font-size: 22px;" text="Libros" />
 
@@ -52,8 +52,8 @@
         <Button onAction="#onEditar" text="Modificar" />
         <Button onAction="#onEliminar" text="Eliminar" />
         <Button onAction="#onToggleTabla" text="Mostrar Tabla" />
-        <Button onAction="#onVolver" text="Volver" />
         <Button onAction="#onExportar" text="Exportar" />
+        <Button onAction="#onVolver" text="Volver" />
     </HBox>
 
     <ListView fx:id="listLibros" maxWidth="700" prefHeight="200" />
