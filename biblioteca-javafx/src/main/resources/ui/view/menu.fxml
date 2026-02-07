@@ -5,15 +5,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="450" prefWidth="700" spacing="16" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="ui.controller.MenuController">
-    <Label prefHeight="27.0" prefWidth="127.0" style="-fx-font-size: 26px; -fx-font-weight: bold;" text="Biblioteca">
+<VBox alignment="CENTER" prefHeight="450" prefWidth="700" spacing="16" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.MenuController">
+    <Label alignment="TOP_CENTER" prefHeight="27.0" prefWidth="127.0" style="-fx-font-size: 26px; -fx-font-weight: bold;" text="Library" textAlignment="CENTER">
       <font>
          <Font size="20.0" />
       </font></Label>
 
     <VBox alignment="CENTER" maxWidth="240" spacing="10">
-        <Button onAction="#onAutores" prefHeight="40" prefWidth="130.0" text="Autores" />
-        <Button onAction="#onLibros" prefHeight="40" prefWidth="130.0" text="Libros" />
-        <Button onAction="#onSalir" prefHeight="40.0" prefWidth="130.0" text="Salir" />
+        <Button onAction="#onAutores" prefHeight="40" prefWidth="130.0" text="Authors" />
+        <Button onAction="#onLibros" prefHeight="40" prefWidth="130.0" text="Books" />
+        <Button onAction="#onSalir" prefHeight="40.0" prefWidth="130.0" text="Exit" />
     </VBox>
 </VBox>

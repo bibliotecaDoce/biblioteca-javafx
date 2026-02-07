@@ -16,22 +16,22 @@
 
 <VBox alignment="CENTER" prefHeight="600" prefWidth="900" spacing="12" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.LibrosController">
 
-    <Label style="-fx-font-size: 22px;" text="Libros" />
+    <Label style="-fx-font-size: 22px;" text="Books" />
 
     <GridPane hgap="10" maxWidth="600" vgap="10">
-        <Label text="Título:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <Label text="Title:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
         <TextField fx:id="txtTitulo" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
         <Label text="ISBN:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
         <TextField fx:id="txtIsbn" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-        <Label text="Año:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <Label text="Year:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
         <TextField fx:id="txtAnio" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-        <Label text="Autor:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <Label text="Author:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
         <ComboBox fx:id="cbAutor" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-        <Label text="Activo:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <Label text="Active:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
         <CheckBox fx:id="chkActivo" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <columnConstraints>
          <ColumnConstraints />
@@ -47,13 +47,13 @@
     </GridPane>
 
     <HBox alignment="TOP_CENTER" spacing="10">
-        <Button onAction="#onNuevo" text="Nuevo" />
-        <Button onAction="#onGuardar" text="Guardar" />
-        <Button onAction="#onEditar" text="Modificar" />
-        <Button onAction="#onEliminar" text="Eliminar" />
-        <Button onAction="#onToggleTabla" text="Mostrar Tabla" />
-        <Button onAction="#onExportar" text="Exportar" />
-        <Button onAction="#onVolver" text="Volver" />
+        <Button onAction="#onNuevo" text="New" />
+        <Button onAction="#onGuardar" text="Save" />
+        <Button onAction="#onEditar" text="Edit" />
+        <Button onAction="#onEliminar" text="Delete" />
+        <Button onAction="#onToggleTabla" text="View table" />
+        <Button onAction="#onExportar" text="Export" />
+        <Button onAction="#onVolver" text="Back" />
     </HBox>
 
     <ListView fx:id="listLibros" maxWidth="700" prefHeight="200" />
@@ -61,11 +61,11 @@
     <TableView fx:id="tblLibros" maxWidth="700" prefHeight="300">
         <columns>
             <TableColumn fx:id="colId" prefWidth="60" text="ID" />
-            <TableColumn fx:id="colTitulo" prefWidth="200" text="Título" />
+            <TableColumn fx:id="colTitulo" prefWidth="200" text="Title" />
             <TableColumn fx:id="colIsbn" prefWidth="120" text="ISBN" />
-            <TableColumn fx:id="colAnio" prefWidth="80" text="Año" />
-            <TableColumn fx:id="colAutor" prefWidth="180" text="Autor" />
-            <TableColumn fx:id="colActivo" prefWidth="60" text="Activo" />
+            <TableColumn fx:id="colAnio" prefWidth="80" text="Year" />
+            <TableColumn fx:id="colAutor" prefWidth="180" text="Author" />
+            <TableColumn fx:id="colActivo" prefWidth="60" text="Active" />
         </columns>
     </TableView>
 

@@ -1,6 +1,5 @@
 package ui.controller;
 
-import app.SceneRouter;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -9,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import model.Autor;
@@ -27,13 +27,9 @@ public class LibrosController {
     @FXML private TextField txtTitulo;
     @FXML private TextField txtIsbn;
     @FXML private TextField txtAnio;
-
-    // Debe coincidir con libros.fxml: fx:id="cbAutor"
     @FXML private ComboBox<Autor> cbAutor;
-
     @FXML private CheckBox chkActivo;
 
-    // Debe coincidir con libros.fxml: fx:id="listLibros"
     @FXML private ListView<Libro> listLibros;
 
     @FXML private TableView<Libro> tblLibros;
@@ -50,11 +46,11 @@ public class LibrosController {
     @FXML
     public void initialize() {
 
-        // Datos en list y tabla
+        // Datos
         listLibros.setItems(librosObs);
         tblLibros.setItems(librosObs);
 
-        // Cargar autores al combo
+        // Combo autores
         cbAutor.setItems(FXCollections.observableArrayList(service.getAutores()));
         cbAutor.setCellFactory(lv -> new ListCell<>() {
             @Override
@@ -71,7 +67,7 @@ public class LibrosController {
             }
         });
 
-        // ListView render
+        // ListView
         listLibros.setCellFactory(lv -> new ListCell<>() {
             @Override
             protected void updateItem(Libro l, boolean empty) {
@@ -79,37 +75,36 @@ public class LibrosController {
                 if (empty || l == null) {
                     setText(null);
                 } else {
-                    String autorNombre = service.getAutorNombreById(l.getAutorId());
-                    setText(l.getId() + " - " + l.getTitulo()
-                            + " | ISBN: " + l.getIsbn()
-                            + " | Año: " + l.getAnio()
-                            + " | Autor: " + autorNombre
-                            + " | Activo: " + (l.isActivo() ? "Sí" : "No"));
+                    setText(
+                            l.getId() + " - " + l.getTitulo()
+                                    + " | ISBN: " + l.getIsbn()
+                                    + " | Año: " + l.getAnio()
+                                    + " | Autor: " + service.getAutorNombreById(l.getAutorId())
+                                    + " | Activo: " + (l.isActivo() ? "Sí" : "No")
+                    );
                 }
             }
         });
 
-        // Columnas tabla
+        // Tabla
         colId.setCellValueFactory(c -> new SimpleIntegerProperty(c.getValue().getId()).asObject());
         colTitulo.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getTitulo()));
         colIsbn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getIsbn()));
         colAnio.setCellValueFactory(c -> new SimpleIntegerProperty(c.getValue().getAnio()).asObject());
-        colAutor.setCellValueFactory(c -> new SimpleStringProperty(service.getAutorNombreById(c.getValue().getAutorId())));
+        colAutor.setCellValueFactory(c -> new SimpleStringProperty(
+                service.getAutorNombreById(c.getValue().getAutorId())
+        ));
         colActivo.setCellValueFactory(c -> new SimpleBooleanProperty(c.getValue().isActivo()).asObject());
 
-        // Tabla oculta de inicio (para que el botón tenga sentido)
+        // Tabla oculta al inicio
         tblLibros.setVisible(false);
         tblLibros.setManaged(false);
 
-        // Selección desde list -> rellena form
-        listLibros.getSelectionModel().selectedItemProperty().addListener((obs, o, sel) -> {
-            if (sel != null) cargarEnFormulario(sel);
-        });
-
-        // Selección desde tabla -> rellena form
-        tblLibros.getSelectionModel().selectedItemProperty().addListener((obs, o, sel) -> {
-            if (sel != null) cargarEnFormulario(sel);
-        });
+        // Selección
+        listLibros.getSelectionModel().selectedItemProperty()
+                .addListener((obs, o, sel) -> cargarEnFormulario(sel));
+        tblLibros.getSelectionModel().selectedItemProperty()
+                .addListener((obs, o, sel) -> cargarEnFormulario(sel));
 
         refrescarDatos();
     }
@@ -124,13 +119,14 @@ public class LibrosController {
 
     @FXML
     public void onGuardar(ActionEvent event) {
-        String titulo = txtTitulo.getText() == null ? "" : txtTitulo.getText().trim();
-        String isbn = txtIsbn.getText() == null ? "" : txtIsbn.getText().trim();
-        String anioStr = txtAnio.getText() == null ? "" : txtAnio.getText().trim();
+        String titulo = txtTitulo.getText().trim();
+        String isbn = txtIsbn.getText().trim();
+        String anioStr = txtAnio.getText().trim();
         Autor autor = cbAutor.getValue();
         boolean activo = chkActivo.isSelected();
 
-        if (Validations.isBlank(titulo) || Validations.isBlank(isbn) || Validations.isBlank(anioStr) || autor == null) {
+        if (Validations.isBlank(titulo) || Validations.isBlank(isbn)
+                || Validations.isBlank(anioStr) || autor == null) {
             error("Todos los campos son obligatorios.");
             return;
         }
@@ -139,7 +135,7 @@ public class LibrosController {
         try {
             anio = Integer.parseInt(anioStr);
         } catch (NumberFormatException e) {
-            error("El año debe ser numérico.");
+            error("El año debe contener solo números.");
             return;
         }
 
@@ -159,12 +155,13 @@ public class LibrosController {
             return;
         }
 
-        String titulo = txtTitulo.getText() == null ? "" : txtTitulo.getText().trim();
-        String isbn = txtIsbn.getText() == null ? "" : txtIsbn.getText().trim();
-        String anioStr = txtAnio.getText() == null ? "" : txtAnio.getText().trim();
+        String titulo = txtTitulo.getText().trim();
+        String isbn = txtIsbn.getText().trim();
+        String anioStr = txtAnio.getText().trim();
         Autor autor = cbAutor.getValue();
 
-        if (Validations.isBlank(titulo) || Validations.isBlank(isbn) || Validations.isBlank(anioStr) || autor == null) {
+        if (Validations.isBlank(titulo) || Validations.isBlank(isbn)
+                || Validations.isBlank(anioStr) || autor == null) {
             error("Todos los campos son obligatorios.");
             return;
         }
@@ -173,7 +170,7 @@ public class LibrosController {
         try {
             anio = Integer.parseInt(anioStr);
         } catch (NumberFormatException e) {
-            error("El año debe ser numérico.");
+            error("El año debe contener solo números.");
             return;
         }
 
@@ -184,7 +181,6 @@ public class LibrosController {
         sel.setActivo(chkActivo.isSelected());
 
         service.updateLibro(sel);
-
         refrescarDatos();
         info("Libro modificado.");
     }
@@ -197,9 +193,11 @@ public class LibrosController {
             return;
         }
 
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
+        Alert confirm = new Alert(
+                Alert.AlertType.CONFIRMATION,
                 "¿Eliminar el libro seleccionado (ID " + sel.getId() + ")?",
-                ButtonType.OK, ButtonType.CANCEL);
+                ButtonType.OK, ButtonType.CANCEL
+        );
 
         confirm.showAndWait().ifPresent(btn -> {
             if (btn == ButtonType.OK) {
@@ -223,31 +221,34 @@ public class LibrosController {
         Path origen = Path.of("data", "libros.json");
 
         if (!Files.exists(origen)) {
-            error("No existe el fichero data/libros.json todavía. Guarda algún libro primero.");
+            error("No existe el fichero data/libros.json todavía.");
             return;
         }
 
         FileChooser fc = new FileChooser();
         fc.setTitle("Exportar libros (JSON)");
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON (*.json)", "*.json"));
+        fc.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("JSON (*.json)", "*.json")
+        );
         fc.setInitialFileName("libros.json");
 
-        File destino = fc.showSaveDialog(((javafx.scene.Node) event.getSource()).getScene().getWindow());
+        File destino = fc.showSaveDialog(((Node) event.getSource()).getScene().getWindow());
         if (destino == null) return;
 
         try {
             Files.copy(origen, destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
             info("Exportación completada:\n" + destino.getAbsolutePath());
         } catch (IOException e) {
-            error("No se pudo exportar el fichero: " + e.getMessage());
+            error("No se pudo exportar el fichero.");
         }
     }
 
     @FXML
     public void onVolver(ActionEvent event) {
-        // Si usáis SceneRouter, cambiáis a SceneRouter.go("menu.fxml");
-        SceneRouter.go("Menu.fxml");
+        Platform.exit(); // o SceneRouter.go("menu.fxml")
     }
+
+    /* ===================== UTIL ===================== */
 
     private Libro getSeleccionado() {
         Libro sel = listLibros.getSelectionModel().getSelectedItem();
