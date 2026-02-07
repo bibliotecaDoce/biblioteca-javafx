@@ -37,7 +37,7 @@ public class LibrosController {
         // Combo autores
         cbAutor.setItems(FXCollections.observableArrayList(service.getAutores()));
 
-        // ListView
+        // Vista de la lista
         listLibros.setItems(librosObs);
         listLibros.setCellFactory(lv -> new ListCell<>() {
             @Override

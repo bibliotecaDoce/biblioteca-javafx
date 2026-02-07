@@ -14,6 +14,7 @@ public class SceneRouter {
 
     public static void go(String fxmlPath) {
         try {
+            // la primera ventana que veremos será la de menú
             Parent root = FXMLLoader.load(SceneRouter.class.getResource("/ui/view/" + fxmlPath));
             stage.setScene(new Scene(root));
             stage.show();

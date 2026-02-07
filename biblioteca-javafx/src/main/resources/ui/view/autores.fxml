@@ -1,52 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox spacing="12" alignment="CENTER"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="ui.controller.AutoresController"
-      prefWidth="900" prefHeight="700">
+<VBox alignment="CENTER" prefHeight="700" prefWidth="900" spacing="12" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="ui.controller.AutoresController">
 
-    <Label text="Autores" style="-fx-font-size: 22px;"/>
+    <Label style="-fx-font-size: 22px;" text="Autores" />
 
-    <GridPane hgap="10" vgap="10" maxWidth="650">
+    <GridPane hgap="10" maxWidth="650" vgap="10">
 
-        <Label text="Nombre:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <TextField fx:id="txtNombre" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <TextField fx:id="txtNombre" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-        <Label text="Nacionalidad:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField fx:id="txtNacionalidad" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <Label text="Nacionalidad:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <TextField fx:id="txtNacionalidad" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-        <Label text="Fecha nacimiento:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <DatePicker fx:id="dpFechaNacimiento" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        <Label text="Fecha nacimiento:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <DatePicker fx:id="dpFechaNacimiento" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-        <Label text="Activo:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <CheckBox fx:id="chkActivo" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        <Label text="Activo:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <CheckBox fx:id="chkActivo" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <columnConstraints>
+         <ColumnConstraints />
+         <ColumnConstraints />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
 
     </GridPane>
 
-    <HBox spacing="10">
-        <Button text="Nuevo" onAction="#onNuevo"/>
-        <Button text="Guardar" onAction="#onGuardar"/>
-        <Button fx:id="btnEditar" text="Editar" onAction="#onEditar"/>
-        <Button fx:id="btnEliminar" text="Eliminar seleccionado" onAction="#onEliminar"/>
-        <Button fx:id="btnToggleTabla" text="Ver tabla" onAction="#onToggleTabla"/>
-        <Button text="Volver" onAction="#onVolver"/>
+    <HBox alignment="TOP_CENTER" spacing="10">
+        <Button onAction="#onNuevo" text="Nuevo" />
+        <Button onAction="#onGuardar" text="Guardar" />
+        <Button fx:id="btnEditar" onAction="#onEditar" text="Editar" />
+        <Button fx:id="btnEliminar" onAction="#onEliminar" text="Eliminar seleccionado" />
+        <Button fx:id="btnToggleTabla" onAction="#onToggleTabla" text="Ver tabla" />
+        <Button onAction="#onVolver" text="Volver" />
     </HBox>
 
-    <Label text="Listado (ListView)" style="-fx-font-weight: bold;"/>
-    <ListView fx:id="lstAutores" prefHeight="180" maxWidth="780"/>
+    <Label style="-fx-font-weight: bold;" text="Listado (ListView)" visible="false" />
+    <ListView fx:id="lstAutores" maxWidth="780" prefHeight="180" />
 
-    <Label text="Tabla (se muestra con el botón)" style="-fx-font-weight: bold;"/>
+    <Label style="-fx-font-weight: bold;" text="Tabla (se muestra con el botón)" visible="false" />
 
-    <TableView fx:id="tblAutores" prefHeight="280" maxWidth="780" visible="false" managed="false">
+    <TableView fx:id="tblAutores" managed="false" maxWidth="780" prefHeight="280" visible="false">
         <columns>
-            <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
-            <TableColumn fx:id="colNombre" text="Nombre" prefWidth="240"/>
-            <TableColumn fx:id="colNacionalidad" text="Nacionalidad" prefWidth="180"/>
-            <TableColumn fx:id="colFechaNacimiento" text="Nacimiento" prefWidth="140"/>
-            <TableColumn fx:id="colActivo" text="Activo" prefWidth="80"/>
+            <TableColumn fx:id="colId" prefWidth="60" text="ID" />
+            <TableColumn fx:id="colNombre" prefWidth="240" text="Nombre" />
+            <TableColumn fx:id="colNacionalidad" prefWidth="180" text="Nacionalidad" />
+            <TableColumn fx:id="colFechaNacimiento" prefWidth="140" text="Nacimiento" />
+            <TableColumn fx:id="colActivo" prefWidth="80" text="Activo" />
         </columns>
     </TableView>
 
