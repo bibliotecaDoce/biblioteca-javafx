@@ -17,7 +17,6 @@ public class AutoresController {
     // Formulario
     @FXML private TextField txtNombre;
     @FXML private TextField txtNacionalidad;
-
     @FXML private DatePicker dpFechaNacimiento;
     @FXML private CheckBox chkActivo;
 
@@ -44,13 +43,14 @@ public class AutoresController {
     @FXML
     public void initialize() {
 
-        // Columnas
+        // Columnas TableView
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colNacionalidad.setCellValueFactory(new PropertyValueFactory<>("nacionalidad"));
         colFechaNacimiento.setCellValueFactory(new PropertyValueFactory<>("fechaNacimiento"));
         colActivo.setCellValueFactory(new PropertyValueFactory<>("activo"));
 
+        // Datos compartidos
         tblAutores.setItems(autoresObs);
         lstAutores.setItems(autoresObs);
 
@@ -79,7 +79,11 @@ public class AutoresController {
         btnEliminar.setDisable(true);
         btnEditar.setDisable(true);
 
-        // Selección ListView
+        // Defaults
+        chkActivo.setSelected(true);
+        dpFechaNacimiento.setValue(null);
+
+        // Selección ListView -> rellena formulario
         lstAutores.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, sel) -> {
             if (sel != null) {
                 tblAutores.getSelectionModel().clearSelection();
@@ -89,7 +93,7 @@ public class AutoresController {
             }
         });
 
-        // Selección TableView
+        // Selección TableView -> rellena formulario
         tblAutores.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, sel) -> {
             if (sel != null) {
                 lstAutores.getSelectionModel().clearSelection();
@@ -101,11 +105,9 @@ public class AutoresController {
 
         // UX: Enter en nacionalidad -> guardar
         txtNacionalidad.setOnAction(e -> onGuardar(null));
-
-        // Defaults para nuevos autores
-        chkActivo.setSelected(true);
-        dpFechaNacimiento.setValue(null);
     }
+
+    // ================= AUX =================
 
     private void refreshData() {
         autoresObs.setAll(service.getAutores());
@@ -131,7 +133,12 @@ public class AutoresController {
         return sel;
     }
 
-    // ---------------- Actions ----------------
+    // Regla PR2: nombre NO puede contener dígitos
+    private boolean nombreContieneNumeros(String nombre) {
+        return nombre != null && nombre.matches(".*\\d.*");
+    }
+
+    // ================= ACTIONS =================
 
     @FXML
     public void onToggleTabla(ActionEvent event) {
@@ -144,7 +151,6 @@ public class AutoresController {
         txtNacionalidad.clear();
         dpFechaNacimiento.setValue(null);
         chkActivo.setSelected(true);
-
         txtNombre.requestFocus();
 
         lstAutores.getSelectionModel().clearSelection();
@@ -165,6 +171,13 @@ public class AutoresController {
             error("Nombre y nacionalidad son obligatorios.");
             return;
         }
+
+        // PR2: si hay números, error directo
+        if (nombreContieneNumeros(nombre)) {
+            error("El nombre no puede contener números.");
+            return;
+        }
+
         if (fechaNac == null) {
             error("La fecha de nacimiento es obligatoria.");
             return;
@@ -199,6 +212,13 @@ public class AutoresController {
             error("Nombre y nacionalidad no pueden estar vacíos.");
             return;
         }
+
+        // PR2: si hay números, error directo
+        if (nombreContieneNumeros(nombre)) {
+            error("El nombre no puede contener números.");
+            return;
+        }
+
         if (fechaNac == null) {
             error("La fecha de nacimiento es obligatoria.");
             return;
@@ -208,7 +228,6 @@ public class AutoresController {
             return;
         }
 
-        // Actualizamos el seleccionado
         sel.setNombre(nombre.trim());
         sel.setNacionalidad(nacionalidad.trim());
         sel.setFechaNacimiento(fechaNac);
@@ -253,7 +272,7 @@ public class AutoresController {
         ((javafx.scene.Node) event.getSource()).getScene().getWindow().hide();
     }
 
-    // ---------------- Alerts ----------------
+    // ================= ALERTS =================
 
     private void info(String msg) {
         new Alert(Alert.AlertType.INFORMATION, msg).showAndWait();
@@ -263,3 +282,4 @@ public class AutoresController {
         new Alert(Alert.AlertType.ERROR, msg).showAndWait();
     }
 }
+
