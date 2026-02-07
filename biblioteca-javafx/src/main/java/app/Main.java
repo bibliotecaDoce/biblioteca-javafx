@@ -12,7 +12,7 @@ public class Main extends Application {
         try {
             // Cargar autores.fxml desde resources
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/ui/view/autores.fxml")
+                    getClass().getResource("/ui/view/libros.fxml")
             );
 
             Scene scene = new Scene(loader.load(), 900, 600);
