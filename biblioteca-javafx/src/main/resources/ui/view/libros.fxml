@@ -49,10 +49,11 @@
     <HBox alignment="TOP_CENTER" spacing="10">
         <Button onAction="#onNuevo" text="Nuevo" />
         <Button onAction="#onGuardar" text="Guardar" />
-        <Button onAction="#onModificar" text="Modificar" />
+        <Button onAction="#onEditar" text="Modificar" />
         <Button onAction="#onEliminar" text="Eliminar" />
         <Button onAction="#onToggleTabla" text="Mostrar Tabla" />
         <Button onAction="#onVolver" text="Volver" />
+        <Button onAction="#onExportar" text="Exportar" />
     </HBox>
 
     <ListView fx:id="listLibros" maxWidth="700" prefHeight="200" />
