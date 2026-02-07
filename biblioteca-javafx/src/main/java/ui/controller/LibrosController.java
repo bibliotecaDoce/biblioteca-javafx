@@ -1,5 +1,6 @@
 package ui.controller;
 
+import app.SceneRouter;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -245,7 +246,7 @@ public class LibrosController {
 
     @FXML
     public void onVolver(ActionEvent event) {
-        Platform.exit(); // o SceneRouter.go("menu.fxml")
+        SceneRouter.go("menu.fxml");
     }
 
     /* ===================== UTIL ===================== */
