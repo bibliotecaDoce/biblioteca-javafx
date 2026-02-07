@@ -1,5 +1,6 @@
 package ui.controller;
 
+import app.SceneRouter;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -168,7 +169,7 @@ public class AutoresController {
     public void onVolver() {
         // Si ya tenéis menú, lo correcto es volver al menú con SceneRouter.
         // Si no, esto cierra la app.
-        Platform.exit();
+        SceneRouter.go("menu.fxml");
     }
 
     private void cargarEnFormulario(Autor a) {
