@@ -16,20 +16,20 @@
 
 <VBox alignment="CENTER" prefHeight="700" prefWidth="900" spacing="12" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.AutoresController">
 
-    <Label style="-fx-font-size: 22px;" text="Autores" />
+    <Label style="-fx-font-size: 22px;" text="Authors" />
 
     <GridPane hgap="10" maxWidth="650" vgap="10">
 
-        <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
         <TextField fx:id="txtNombre" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-        <Label text="Nacionalidad:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <Label text="Nationality:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
         <TextField fx:id="txtNacionalidad" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-        <Label text="Fecha nacimiento:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <Label text="Birth date:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
         <DatePicker fx:id="dpFechaNacimiento" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-        <Label text="Activo:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <Label text="Active:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
         <CheckBox fx:id="chkActivo" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <columnConstraints>
          <ColumnConstraints />
@@ -45,13 +45,13 @@
     </GridPane>
 
     <HBox alignment="TOP_CENTER" spacing="10">
-        <Button onAction="#onNuevo" text="Nuevo" />
-        <Button onAction="#onGuardar" text="Guardar" />
-        <Button fx:id="btnEditar" onAction="#onEditar" text="Editar" />
-        <Button fx:id="btnEliminar" onAction="#onEliminar" text="Eliminar seleccionado" />
-        <Button fx:id="btnToggleTabla" onAction="#onToggleTabla" text="Ver tabla" />
-        <Button onAction="#onExportar" text="Exportar" />
-        <Button onAction="#onVolver" text="Volver" />
+        <Button onAction="#onNuevo" text="New" />
+        <Button onAction="#onGuardar" text="Save" />
+        <Button fx:id="btnEditar" onAction="#onEditar" text="Edit" />
+        <Button fx:id="btnEliminar" onAction="#onEliminar" text="Delete" />
+        <Button fx:id="btnToggleTabla" onAction="#onToggleTabla" text="View table" />
+        <Button onAction="#onExportar" text="Export" />
+        <Button onAction="#onVolver" text="Back" />
     </HBox>
 
     <Label style="-fx-font-weight: bold;" text="Listado (ListView)" visible="false" />
@@ -62,10 +62,10 @@
     <TableView fx:id="tblAutores" managed="false" maxWidth="780" prefHeight="280" visible="false">
         <columns>
             <TableColumn fx:id="colId" prefWidth="60" text="ID" />
-            <TableColumn fx:id="colNombre" prefWidth="240" text="Nombre" />
-            <TableColumn fx:id="colNacionalidad" prefWidth="180" text="Nacionalidad" />
-            <TableColumn fx:id="colFechaNacimiento" prefWidth="140" text="Nacimiento" />
-            <TableColumn fx:id="colActivo" prefWidth="80" text="Activo" />
+            <TableColumn fx:id="colNombre" prefWidth="240" text="Name" />
+            <TableColumn fx:id="colNacionalidad" prefWidth="180" text="Nationality" />
+            <TableColumn fx:id="colFechaNacimiento" prefWidth="140" text="Birth date" />
+            <TableColumn fx:id="colActivo" prefWidth="80" text="Active" />
         </columns>
     </TableView>
 

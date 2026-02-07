@@ -225,7 +225,7 @@ public class AutoresController {
         tblAutores.setVisible(visible);
         tblAutores.setManaged(visible);
         if (btnToggleTabla != null) {
-            btnToggleTabla.setText(visible ? "Ocultar tabla" : "Ver tabla");
+            btnToggleTabla.setText(visible ? "View table" : "View table");
         }
     }
 
