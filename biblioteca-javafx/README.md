@@ -3,7 +3,7 @@
 Es una aplicacion de escritorio desarrollada en JavaFX para la gestión de una biblioteca.
 
 # Funciones
-- Permite gestionar autores, añade nuevos, edita los existentes y permite borrar los ya presntes.
+- Permite gestionar autores y libros, añade nuevos, edita los existentes y permite borrar los ya presntes.
 - Guarda los datos en un archivos JSON.
 - Validaciones de datos en formularios.
 - Interfaz gráfica desarrollada con JavaFX en Scene Builder.
