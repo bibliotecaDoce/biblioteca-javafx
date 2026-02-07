@@ -51,6 +51,7 @@
         <Button fx:id="btnEliminar" onAction="#onEliminar" text="Eliminar seleccionado" />
         <Button fx:id="btnToggleTabla" onAction="#onToggleTabla" text="Ver tabla" />
         <Button onAction="#onVolver" text="Volver" />
+        <Button onAction="#onExportar" text="Exportar" />
     </HBox>
 
     <Label style="-fx-font-weight: bold;" text="Listado (ListView)" visible="false" />
