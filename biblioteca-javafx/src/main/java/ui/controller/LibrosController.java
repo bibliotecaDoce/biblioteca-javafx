@@ -1,5 +1,6 @@
 package ui.controller;
 
+import app.SceneRouter;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -136,7 +137,7 @@ public class LibrosController {
 
     @FXML
     private void onVolver() {
-        Platform.exit();
+        SceneRouter.go("menu.fxml");
     }
 
     private void cargarEnFormulario(Libro l) {
